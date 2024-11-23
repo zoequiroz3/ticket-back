@@ -29,6 +29,11 @@ public class Category {
     private Category() {
     }
 
+    public Category(String description, Type type) {
+        this.description = description;
+        this.type = type;
+    }
+
     @PrePersist
     private void onCreate() {
         LocalDateTime now = LocalDateTime.now();
