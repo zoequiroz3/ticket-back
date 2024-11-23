@@ -4,6 +4,9 @@ import com.diseno.demo.dto.response.GetRequirementDTO;
 import com.diseno.demo.dto.request.RequirementDTO;
 import com.diseno.demo.entity.Requirement;
 import com.diseno.demo.entity.Type;
+import com.diseno.demo.entity.user.InsideUser;
+import com.diseno.demo.entity.user.OutsideUser;
+import com.diseno.demo.entity.user.User;
 import com.diseno.demo.repository.RequirementRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -59,7 +62,11 @@ public class RequirementService {
                 .orElseThrow(() -> new EntityNotFoundException("Requirement with id " + id + " not found"));
 
         if (requirementDTO.getAssigneeId() != null) {
-            requirement.setAssignee(userService.getUserById(requirementDTO.getAssigneeId()));
+            User user = userService.getUserById(requirementDTO.getAssigneeId());
+            if(user instanceof OutsideUser) {
+                throw new EntityNotFoundException("User with id " + requirementDTO.getAssigneeId() + " is not an employee");
+            }
+            requirement.setAssignee((InsideUser) user);
         }
         if (requirementDTO.getCategoryId() != null) {
             requirement.setCategory(categoryService.getCategoryById(requirementDTO.getCategoryId()));
