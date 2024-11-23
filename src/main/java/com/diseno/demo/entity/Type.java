@@ -1,6 +1,7 @@
 package com.diseno.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ public class Type {
     private String description;
 
     @Column(nullable = false, length = 3)
+    @Pattern(regexp = "^[A-Z]{3}$", message = "Code must be 3 uppercase letters")
     private String code;
 
     @Column(name = "created_at")

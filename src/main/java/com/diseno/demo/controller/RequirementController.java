@@ -21,7 +21,7 @@ public class RequirementController {
     public void createRequirement(@RequestBody RequirementDTO requirementDTO) {
         requirementService.createRequirement(requirementDTO);
     }
-    /*
+
     @GetMapping
     public ResponseEntity<List<GetRequirementDTO>> getAllRequirements() {
         return requirementService.getAllRequirements();
@@ -37,5 +37,4 @@ public class RequirementController {
         requirementService.updateRequirement(id, requirementDTO);
     }
 
-     */
 }

@@ -3,11 +3,12 @@ package com.diseno.demo.entity;
 import com.diseno.demo.entity.user.InsideUser;
 import com.diseno.demo.entity.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -26,16 +27,16 @@ public class Requirement {
     @Column(length = 5000)
     private String description;
 
-    private State state;
+    private State state = State.OPEN;
     private Priority priority;
 
     @ManyToMany
-    private HashSet<Requirement> requirements;
-    @ManyToOne
+    private Set<Requirement> requirements;
+    @ManyToOne(fetch = FetchType.EAGER)
     private Category category;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private User creator;
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private InsideUser assignee;
 
     @Column(name = "created_at")
