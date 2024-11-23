@@ -1,11 +1,9 @@
-package com.diseno.demo.dto;
+package com.diseno.demo.dto.response;
 
-import com.diseno.demo.entity.Type;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data

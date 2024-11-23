@@ -1,4 +1,4 @@
-package com.diseno.demo.dto;
+package com.diseno.demo.dto.request;
 
 import com.diseno.demo.entity.Priority;
 import jakarta.validation.constraints.NotBlank;

@@ -1,7 +1,7 @@
 package com.diseno.demo.controller;
 
-import com.diseno.demo.dto.GetRequirementDTO;
-import com.diseno.demo.dto.RequirementDTO;
+import com.diseno.demo.dto.response.GetRequirementDTO;
+import com.diseno.demo.dto.request.RequirementDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

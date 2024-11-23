@@ -1,7 +1,7 @@
 package com.diseno.demo.service;
 
-import com.diseno.demo.dto.GetRequirementDTO;
-import com.diseno.demo.dto.RequirementDTO;
+import com.diseno.demo.dto.response.GetRequirementDTO;
+import com.diseno.demo.dto.request.RequirementDTO;
 import com.diseno.demo.entity.Requirement;
 import com.diseno.demo.entity.Type;
 import com.diseno.demo.repository.RequirementRepository;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -33,7 +34,6 @@ public class RequirementService {
 
     public ResponseEntity<List<GetRequirementDTO>> getAllRequirements() {
         List<Requirement> requirements = requirementRepository.findAll();
-
 
         List<GetRequirementDTO> requirementDTOS = requirements.stream()
                 .map(this::convertRequirementToGetDTO)
@@ -55,7 +55,33 @@ public class RequirementService {
 
 
     public void updateRequirement(Long id, RequirementDTO requirementDTO) {
-    //    requirementRepository.update(id, requirementDTO);
+        Requirement requirement = requirementRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Requirement with id " + id + " not found"));
+
+        if (requirementDTO.getAssigneeId() != null) {
+            requirement.setAssignee(userService.getUserById(requirementDTO.getAssigneeId()));
+        }
+        if (requirementDTO.getCategoryId() != null) {
+            requirement.setCategory(categoryService.getCategoryById(requirementDTO.getCategoryId()));
+        }
+        if (requirementDTO.getRequirementsIds() != null && !requirementDTO.getRequirementsIds().isEmpty()) {
+            requirement.setRequirements(requirementDTO.getRequirementsIds().stream()
+                    .map(requirementId -> requirementRepository.findById(requirementId)
+                            .orElseThrow(() -> new EntityNotFoundException("Requirement with id " + requirementId +
+                                    " not found")))
+                    .collect(Collectors.toSet()));
+        }
+        if (requirementDTO.getPriority() != null) {
+            requirement.setPriority(requirementDTO.getPriority());
+        }
+        if (requirementDTO.getDescription() != null) {
+            requirement.setDescription(requirementDTO.getDescription());
+        }
+        if (requirementDTO.getSubject() != null) {
+            requirement.setSubject(requirementDTO.getSubject());
+        }
+
+        requirementRepository.save(requirement);
     }
 
     private String generateCode(Long typeId) {

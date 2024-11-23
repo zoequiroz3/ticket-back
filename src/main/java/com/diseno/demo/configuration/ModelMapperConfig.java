@@ -1,19 +1,14 @@
 package com.diseno.demo.configuration;
 
-import com.diseno.demo.dto.GetRequirementDTO;
-import com.diseno.demo.dto.RequirementDTO;
-import com.diseno.demo.entity.Category;
+import com.diseno.demo.dto.response.GetRequirementDTO;
+import com.diseno.demo.dto.request.RequirementDTO;
 import com.diseno.demo.entity.Requirement;
-import com.diseno.demo.entity.user.InsideUser;
-import com.diseno.demo.entity.user.User;
 import org.modelmapper.*;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.stream.Collectors;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Configuration
 public class ModelMapperConfig {
