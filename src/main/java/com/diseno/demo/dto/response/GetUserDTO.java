@@ -12,7 +12,7 @@ public class GetUserDTO {
     private String department;
     private Integer userFile;
     private Boolean sla;
-    private String cuit;
-    private String companyName;
+    private String cuil;
+    private String company;
     private String description;
 }

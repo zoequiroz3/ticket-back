@@ -48,6 +48,7 @@ public class ModelMapperConfig {
                  GetRequirementDTO::setRequirementsIds);
 
 
+            //todo agregar estos mapeos con el using
             /*
             mapper.map(src -> src.getCategory() != null ? src.getCategory().getId() : null, GetRequirementDTO::setCategoryId);
             mapper.map(src -> src.getCreator() != null ? src.getCreator().getId() : null, GetRequirementDTO::setCreatorId);
