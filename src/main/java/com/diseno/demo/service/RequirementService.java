@@ -46,8 +46,7 @@ public class RequirementService {
     }
 
     public ResponseEntity<GetRequirementDTO> getRequirementDTOById(Long id) {
-        Requirement requirement = requirementRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Requirement with id " + id + " not found"));
+        Requirement requirement = this.getRequirementById(id);
 
         GetRequirementDTO requirementDTO = convertRequirementToGetDTO(requirement);
 
@@ -106,5 +105,10 @@ public class RequirementService {
             requirementDTO.setAssigneeId(requirement.getAssignee().getId());
         }
         return requirementDTO;
+    }
+
+    public Requirement getRequirementById(Long id) {
+        return requirementRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Requirement with id " + id + " not found"));
+
     }
 }

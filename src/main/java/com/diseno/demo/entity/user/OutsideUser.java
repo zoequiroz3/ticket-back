@@ -23,4 +23,18 @@ public class OutsideUser extends User {
 
     private OutsideUser(){
     }
+
+    public OutsideUser(String email, String username, String name, String position, String department, Integer userFile, String cuil, String description, String company, Boolean sla) {
+        this.email = email;
+        this.username = username;
+        this.name = name;
+        this.position = position;
+        this.department = department;
+        this.userFile = userFile;
+        this.cuil = cuil;
+        this.description = description;
+        this.company = company;
+        this.sla = sla;
+
+    }
 }

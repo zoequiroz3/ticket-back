@@ -44,6 +44,7 @@ public class TypeService {
         }
         if (typeDTO.getCode() != null){
             typeToUpdate.setCode(typeDTO.getCode());
+            //todo modificar a todo los requirement que tengan este type
         }
 
         typeRepository.save(typeToUpdate);

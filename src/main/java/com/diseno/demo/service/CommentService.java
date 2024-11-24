@@ -3,6 +3,8 @@ package com.diseno.demo.service;
 import com.diseno.demo.dto.request.CommentDTO;
 import com.diseno.demo.dto.response.GetCommentDTO;
 import com.diseno.demo.entity.Comment;
+import com.diseno.demo.entity.Requirement;
+import com.diseno.demo.entity.user.User;
 import com.diseno.demo.repository.CommentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -18,6 +20,8 @@ import java.util.List;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final ModelMapper modelMapper;
+    private final RequirementService requirementService;
+    private final UserService userService;
 
     public void createComment(CommentDTO commentDTO) {
         Comment comment = modelMapper.map(commentDTO, Comment.class);
@@ -44,10 +48,12 @@ public class CommentService {
             commentToUpdate.setDescription(commentDTO.getDescription());
         }
         if (commentDTO.getRequirementId() != null){
-            commentToUpdate.setRequirementId(commentDTO.getRequirementId());
+            Requirement requirement = requirementService.getRequirementById(commentDTO.getRequirementId());
+            commentToUpdate.setRequirement(requirement);
         }
         if (commentDTO.getUserId() != null){
-            commentToUpdate.setUserId(commentDTO.getUserId());
+            User user = userService.getUserById(commentDTO.getUserId());
+            commentToUpdate.setUser(user);
         }
 
         commentRepository.save(commentToUpdate);

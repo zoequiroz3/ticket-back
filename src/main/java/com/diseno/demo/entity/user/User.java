@@ -21,13 +21,14 @@ public abstract class User {
 
     @Column(unique = true)
     protected String username;
+    //todo pensar como manejar la contraseña
 
     @Column(nullable = false)
     protected String name;
 
     protected String position;
     protected String department;
-    protected Integer file;
+    protected Integer userFile;
 
     @Column(nullable = false)
     protected Boolean sla;
