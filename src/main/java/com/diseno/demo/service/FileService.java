@@ -1,22 +1,45 @@
 package com.diseno.demo.service;
 
 import com.diseno.demo.dto.request.FileDTO;
-import com.diseno.demo.entity.File;
 import com.diseno.demo.entity.Requirement;
 import com.diseno.demo.repository.FileRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
-@AllArgsConstructor
 @Service
 //todo pensar bien como hacer userFile
 public class FileService {
+
+    private static final String directoryPath = System.getenv("DIRECTORY_PATH");
+    private final FileRepository fileRepository;
+    private final File directory = new File(directoryPath);
+
+
+    public FileService(FileRepository fileRepository) {
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+        this.fileRepository = fileRepository;
+    }
+
+    @SneakyThrows
+    public void createFile(MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new RuntimeException("File is empty");
+        }
+
+        String filePath = directory + file.getOriginalFilename();
+        file.transferTo(new File(filePath));
+    }
 /*
 
     private final FileRepository fileRepository;
