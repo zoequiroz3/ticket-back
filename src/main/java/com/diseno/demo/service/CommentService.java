@@ -25,7 +25,8 @@ public class CommentService {
 
     public void createComment(CommentDTO commentDTO) {
         Comment comment = modelMapper.map(commentDTO, Comment.class);
-        //todo configurar el modelMapper
+        comment.setRequirement(requirementService.getRequirementById(commentDTO.getRequirementId()));
+        comment.setUser(userService.getUserById(commentDTO.getUserId()));
         commentRepository.save(comment);
     }
 

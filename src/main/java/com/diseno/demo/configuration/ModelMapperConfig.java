@@ -1,11 +1,15 @@
 package com.diseno.demo.configuration;
 
 import com.diseno.demo.dto.response.GetCategoryDTO;
+import com.diseno.demo.dto.response.GetCommentDTO;
 import com.diseno.demo.dto.response.GetRequirementDTO;
 import com.diseno.demo.dto.request.RequirementDTO;
 import com.diseno.demo.dto.response.GetTypeDTO;
 import com.diseno.demo.entity.Category;
+import com.diseno.demo.entity.Comment;
 import com.diseno.demo.entity.Requirement;
+import com.diseno.demo.entity.Type;
+import com.diseno.demo.entity.user.User;
 import org.modelmapper.*;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
@@ -50,6 +54,18 @@ public class ModelMapperConfig {
             mapper.map(src -> src.getAssignee() != null ? src.getAssignee().getId() : null, GetRequirementDTO::setAssigneeId);
 
              */
+        });
+
+        TypeMap<Comment, GetCommentDTO> commentGetCommentDTOTypeMap = modelMapper.createTypeMap(Comment.class, GetCommentDTO.class);
+        commentGetCommentDTOTypeMap.addMappings(mapper -> {
+            mapper.using(ctx -> {
+                Requirement requirement = (Requirement) ctx.getSource();
+                return requirement != null ? requirement.getId() : null;
+            }).map(Comment::getRequirement, GetCommentDTO::setRequirementId);
+            mapper.using(ctx -> {
+                User user = (User) ctx.getSource();
+                return user != null ? user.getId() : null;
+            }).map(Comment::getUser, GetCommentDTO::setUserId);
         });
 
         /*TypeMap<Category, GetCategoryDTO> categoryGetCategoryDTOTypeMap = modelMapper.createTypeMap(Category.class, GetCategoryDTO.class);

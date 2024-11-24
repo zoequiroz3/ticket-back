@@ -7,5 +7,5 @@ public class CommentDTO {
     private String subject;
     private String description;
     private Long requirementId;
-    private Long userId; //todo preguntar al front si prefiere ido userdto
+    private Long userId;
 }

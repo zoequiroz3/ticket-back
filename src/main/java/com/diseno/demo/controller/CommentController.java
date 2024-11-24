@@ -1,9 +1,13 @@
 package com.diseno.demo.controller;
 
 import com.diseno.demo.dto.request.CommentDTO;
+import com.diseno.demo.dto.response.GetCommentDTO;
 import com.diseno.demo.service.CommentService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -18,13 +22,13 @@ public class CommentController {
     }
 
     @GetMapping
-    public void getAllComments() {
-        commentService.getAllComments();
+    public ResponseEntity<List<GetCommentDTO>> getAllComments() {
+        return commentService.getAllComments();
     }
 
     @GetMapping("/{id}")
-    public void getCommentDTOById(@PathVariable Long id) {
-        commentService.getCommentDTOById(id);
+    public ResponseEntity<GetCommentDTO> getCommentDTOById(@PathVariable Long id) {
+        return commentService.getCommentDTOById(id);
     }
 
     @PatchMapping("/{id}")
