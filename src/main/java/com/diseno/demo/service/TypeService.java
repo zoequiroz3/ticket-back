@@ -1,9 +1,7 @@
 package com.diseno.demo.service;
 
 import com.diseno.demo.dto.request.TypeDTO;
-import com.diseno.demo.dto.request.UpdateTypeDTO;
 import com.diseno.demo.dto.response.GetTypeDTO;
-import com.diseno.demo.dto.response.UpdateCategoryDTO;
 import com.diseno.demo.entity.Type;
 import com.diseno.demo.repository.TypeRepository;
 import jakarta.persistence.EntityNotFoundException;

@@ -2,9 +2,7 @@ package com.diseno.demo.service;
 
 import com.diseno.demo.dto.request.CategoryDTO;
 import com.diseno.demo.dto.response.GetCategoryDTO;
-import com.diseno.demo.dto.response.UpdateCategoryDTO;
 import com.diseno.demo.entity.Category;
-import jakarta.persistence.PersistenceUnit;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -37,7 +35,7 @@ public class CategoryService {
         return ResponseEntity.status(HttpStatus.OK).body(categories.stream().map(category -> modelMapper.map(category, GetCategoryDTO.class)).toList());
     }
 
-    public void updateCategory(Long id, UpdateCategoryDTO category) {
+    public void updateCategory(Long id, CategoryDTO category) {
         Category categoryToUpdate = getCategoryById(id);
         if (category.getDescription() != null){
             categoryToUpdate.setDescription(category.getDescription());

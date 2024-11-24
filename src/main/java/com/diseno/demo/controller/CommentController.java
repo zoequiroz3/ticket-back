@@ -13,7 +13,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public void createComment(CommentDTO commentDTO) {
+    public void createComment(@RequestBody CommentDTO commentDTO) {
         commentService.createComment(commentDTO);
     }
 
@@ -23,12 +23,12 @@ public class CommentController {
     }
 
     @GetMapping("/{id}")
-    public void getCommentDTOById(Long id) {
+    public void getCommentDTOById(@PathVariable Long id) {
         commentService.getCommentDTOById(id);
     }
 
     @PatchMapping("/{id}")
-    public void updateComment(Long id, CommentDTO commentDTO) {
+    public void updateComment(@PathVariable Long id, @RequestBody CommentDTO commentDTO) {
         commentService.updateComment(id, commentDTO);
     }
 }

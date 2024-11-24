@@ -32,6 +32,7 @@ public class RequirementService {
     public void createRequirement(RequirementDTO requirementDTO) {
         Requirement requirement = modelMapper.map(requirementDTO, Requirement.class);
         requirement.setCode(this.generateCode(requirementDTO.getTypeId()));
+        //todo agregar logica para asignar requerimientos
         requirementRepository.save(requirement);
     }
 

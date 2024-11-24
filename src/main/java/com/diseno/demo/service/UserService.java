@@ -1,13 +1,12 @@
 package com.diseno.demo.service;
 
 import com.diseno.demo.dto.request.UserDTO;
+import com.diseno.demo.dto.response.GetUserDTO;
 import com.diseno.demo.entity.user.OutsideUser;
 import com.diseno.demo.entity.user.User;
-import com.diseno.demo.entity.user.InsideUser;
 import com.diseno.demo.exception.TicketException;
 import com.diseno.demo.factory.user.InsideUserFactory;
 import com.diseno.demo.factory.user.OutsideUserFactory;
-import com.diseno.demo.factory.user.UserFactory;
 import com.diseno.demo.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -17,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Locale;
 
 @AllArgsConstructor
 @Service
@@ -55,17 +53,35 @@ public class UserService {
     public void updateUser(Long id, UserDTO userDTO) {
         User userToUpdate = getUserById(id);
 
-        if (userDTO.getName() != null){
+        if (userDTO.getName() != null) {
             userToUpdate.setName(userDTO.getName());
         }
-        if (userDTO.getEmail() != null){
+        if (userDTO.getEmail() != null) {
             userToUpdate.setEmail(userDTO.getEmail());
         }
-        if (userDTO.getPassword() != null){
-            userToUpdate.setPassword(userDTO.getPassword());
+        if (userDTO.getUsername() != null) {
+            userToUpdate.setUsername(userDTO.getUsername());
         }
-        if (userDTO.getRole() != null){
-            userToUpdate.setRole(userDTO.getRole());
+        if (userDTO.getPosition() != null) {
+            userToUpdate.setPosition(userDTO.getPosition());
+        }
+        if (userDTO.getDepartment() != null) {
+            userToUpdate.setDepartment(userDTO.getDepartment());
+        }
+        if (userDTO.getUserFile() != null) {
+            userToUpdate.setUserFile(userDTO.getUserFile());
+        }
+        if (userDTO.getSla() != null) {
+            userToUpdate.setSla(userDTO.getSla());
+        }
+        if (userDTO.getCuil() != null && userToUpdate instanceof OutsideUser) {
+            ((OutsideUser) userToUpdate).setCuil(userDTO.getCuil());
+        }
+        if (userDTO.getDescription() != null && userToUpdate instanceof OutsideUser) {
+            ((OutsideUser) userToUpdate).setDescription(userDTO.getDescription());
+        }
+        if (userDTO.getCompany() != null && userToUpdate instanceof OutsideUser) {
+            ((OutsideUser) userToUpdate).setCompany(userDTO.getCompany());
         }
 
         userRepository.save(userToUpdate);

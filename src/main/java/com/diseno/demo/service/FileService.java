@@ -17,6 +17,7 @@ import java.util.List;
 @Service
 //todo pensar bien como hacer userFile
 public class FileService {
+/*
 
     private final FileRepository fileRepository;
     private final ModelMapper modelMapper;
@@ -60,5 +61,6 @@ public class FileService {
         return fileRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("File with id " + id + " not found"));
     }
+*/
 
 }

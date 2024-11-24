@@ -16,7 +16,7 @@ public class TypeController {
     private final TypeService typeService;
 
     @PostMapping
-    public void createType(TypeDTO typeDTO) {
+    public void createType(@RequestBody TypeDTO typeDTO) {
         typeService.createType(typeDTO);
     }
 
@@ -26,12 +26,12 @@ public class TypeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetTypeDTO> getTypeDTOById(Long id) {
+    public ResponseEntity<GetTypeDTO> getTypeDTOById(@PathVariable Long id) {
         return typeService.getTypeDTOById(id);
     }
 
     @PatchMapping("/{id}")
-    public void updateType(Long id, TypeDTO typeDTO) {
+    public void updateType(@PathVariable Long id, @RequestBody TypeDTO typeDTO) {
         typeService.updateType(id, typeDTO);
     }
 }

@@ -52,11 +52,11 @@ public class ModelMapperConfig {
              */
         });
 
-        TypeMap<Category, GetCategoryDTO> categoryGetCategoryDTOTypeMap = modelMapper.createTypeMap(Category.class, GetCategoryDTO.class);
+        /*TypeMap<Category, GetCategoryDTO> categoryGetCategoryDTOTypeMap = modelMapper.createTypeMap(Category.class, GetCategoryDTO.class);
         categoryGetCategoryDTOTypeMap.addMappings(mapper -> {
             mapper.map(src -> src.getType() != null ? modelMapper.map(src.getType(), GetTypeDTO.class): null, GetCategoryDTO::setType);
         });
-
+*/
         return modelMapper;
     }
 }

@@ -4,7 +4,7 @@ import com.diseno.demo.dto.request.UserDTO;
 import com.diseno.demo.entity.user.OutsideUser;
 import com.diseno.demo.entity.user.User;
 
-public class OutsideUserFactory extends UserFactory {
+public class OutsideUserFactory implements UserFactory {
     @Override
     public User createUser(UserDTO userDTO) {
         return new OutsideUser(

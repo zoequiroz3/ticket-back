@@ -2,7 +2,6 @@ package com.diseno.demo.controller;
 
 import com.diseno.demo.dto.request.CategoryDTO;
 import com.diseno.demo.dto.response.GetCategoryDTO;
-import com.diseno.demo.dto.response.UpdateCategoryDTO;
 import com.diseno.demo.service.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ public class CategoryController {
 
 
     @PostMapping
-    public void createCategory(CategoryDTO categoryDTO) {
+    public void createCategory(@RequestBody CategoryDTO categoryDTO) {
         categoryService.createCategory(categoryDTO);
     }
 
@@ -34,7 +33,7 @@ public class CategoryController {
     }
 
     @PatchMapping("/{id}")
-    public void updateCategory(@PathVariable Long id, UpdateCategoryDTO categoryDTO) {
+    public void updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO) {
         categoryService.updateCategory(id, categoryDTO);
     }
 }
