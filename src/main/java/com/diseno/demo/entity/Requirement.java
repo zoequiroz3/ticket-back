@@ -34,8 +34,10 @@ public class Requirement {
     private Set<Requirement> requirements;
     @ManyToOne(fetch = FetchType.EAGER)
     private Category category;
-    @OneToOne(fetch = FetchType.EAGER)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     private User creator;
+
     @ManyToOne(fetch = FetchType.EAGER)
     private InsideUser assignee;
 

@@ -9,12 +9,17 @@ import com.diseno.demo.entity.Category;
 import com.diseno.demo.entity.Comment;
 import com.diseno.demo.entity.Requirement;
 import com.diseno.demo.entity.Type;
+import com.diseno.demo.entity.user.InsideUser;
 import com.diseno.demo.entity.user.User;
 import org.modelmapper.*;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -30,31 +35,34 @@ public class ModelMapperConfig {
         requirementDTORequirementTypeMap.addMappings(mapper -> {
             mapper.skip(Requirement::setId);
             mapper.skip(Requirement::setId);
-            mapper.map(src -> src.getAssigneeId() != null? src.getAssigneeId() : null, Requirement::setAssignee);
-            mapper.map(src -> src.getRequirementsIds() != null && !src.getRequirementsIds().isEmpty() ?
-                            src.getRequirementsIds() :
-                            null,
-                    Requirement::setRequirements);
-
         });
 
         TypeMap<Requirement, GetRequirementDTO> requirementGetRequirementDTOTypeMap =
                 modelMapper.createTypeMap(Requirement.class, GetRequirementDTO.class);
         requirementGetRequirementDTOTypeMap.addMappings(mapper -> {
 
-            mapper.map(src -> src.getRequirements() != null && !src.getRequirements().isEmpty() ?
-                        src.getRequirements().stream().map(Requirement::getId).collect(Collectors.toSet()) :
-                        null,
-                 GetRequirementDTO::setRequirementsIds);
+            mapper.using(ctx -> {
+                Set<Requirement> requirements = (Set<Requirement>) ctx.getSource();
+                return requirements != null && !requirements.isEmpty() ?
+                        requirements.stream().map(Requirement::getId).collect(Collectors.toSet()) :
+                        null;
+            }).map(Requirement::getRequirements, GetRequirementDTO::setRequirementsIds);
 
 
-            //todo agregar estos mapeos con el using
-            /*
-            mapper.map(src -> src.getCategory() != null ? src.getCategory().getId() : null, GetRequirementDTO::setCategoryId);
-            mapper.map(src -> src.getCreator() != null ? src.getCreator().getId() : null, GetRequirementDTO::setCreatorId);
-            mapper.map(src -> src.getAssignee() != null ? src.getAssignee().getId() : null, GetRequirementDTO::setAssigneeId);
+            mapper.using(ctx -> {
+                Category category = (Category) ctx.getSource();
+                return category != null ? category.getId() : null;
+            }).map(Requirement::getCategory, GetRequirementDTO::setCategoryId);
 
-             */
+            mapper.using(ctx -> {
+                User creator = (User) ctx.getSource();
+                return creator != null ? creator.getId() : null;
+            }).map(Requirement::getCreator, GetRequirementDTO::setCreatorId);
+
+            mapper.using(ctx -> {
+                InsideUser assignee = (InsideUser) ctx.getSource();
+                return assignee != null ? assignee.getId() : null;
+            }).map(Requirement::getAssignee, GetRequirementDTO::setAssigneeId);
         });
 
         TypeMap<Comment, GetCommentDTO> commentGetCommentDTOTypeMap = modelMapper.createTypeMap(Comment.class, GetCommentDTO.class);

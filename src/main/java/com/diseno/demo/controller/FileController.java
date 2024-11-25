@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api/files")
 public class FileController {
+/*
 
     private final FileService fileService;
 
@@ -19,5 +20,6 @@ public class FileController {
     public void createFile(@RequestParam("file") MultipartFile file, @PathVariable Long requirementId) {
         fileService.createFile(file, requirementId);
     }
+*/
 
 }

@@ -7,6 +7,7 @@ import com.diseno.demo.entity.Type;
 import com.diseno.demo.entity.user.InsideUser;
 import com.diseno.demo.entity.user.OutsideUser;
 import com.diseno.demo.entity.user.User;
+import com.diseno.demo.exception.TicketException;
 import com.diseno.demo.repository.RequirementRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,8 +33,23 @@ public class RequirementService {
 
     public void createRequirement(RequirementDTO requirementDTO) {
         Requirement requirement = modelMapper.map(requirementDTO, Requirement.class);
+
+        requirement.setCategory(categoryService.getCategoryById(requirementDTO.getCategoryId()));
+        requirement.setCreator(userService.getUserById(requirementDTO.getCreatorId()));
         requirement.setCode(this.generateCode(requirementDTO.getTypeId()));
-        //todo agregar logica para asignar requerimientos
+
+        HashSet<Requirement> requirements = requirementRepository.findAllByIds(requirementDTO.getRequirementsIds());
+        requirement.setRequirements(requirements);
+
+        if (requirementDTO.getAssigneeId() != null) {
+            User user = userService.getUserById(requirementDTO.getAssigneeId());
+            if(user instanceof OutsideUser) {
+                throw new TicketException("User with id " + requirementDTO.getAssigneeId() + " is not an employee",
+                        "INVALID_EMPLOYEE");
+            }
+            requirement.setAssignee((InsideUser) user);
+        }
+
         requirementRepository.save(requirement);
     }
 
@@ -40,8 +57,12 @@ public class RequirementService {
         List<Requirement> requirements = requirementRepository.findAll();
 
         List<GetRequirementDTO> requirementDTOS = requirements.stream()
-                .map(this::convertRequirementToGetDTO)
-                .toList();
+                .map(requirement -> {
+                    GetRequirementDTO requirementDTO = modelMapper.map(requirement, GetRequirementDTO.class);
+                    requirementDTO.setDate(requirement.getCreatedAt().toLocalDate());
+                    requirementDTO.setTime(requirement.getCreatedAt().toLocalTime());
+                    return requirementDTO;
+                }).toList();
 
         return ResponseEntity.status(HttpStatus.OK).body(requirementDTOS);
     }
@@ -49,7 +70,9 @@ public class RequirementService {
     public ResponseEntity<GetRequirementDTO> getRequirementDTOById(Long id) {
         Requirement requirement = this.getRequirementById(id);
 
-        GetRequirementDTO requirementDTO = convertRequirementToGetDTO(requirement);
+        GetRequirementDTO requirementDTO = modelMapper.map(requirement, GetRequirementDTO.class);
+        requirementDTO.setDate(requirement.getCreatedAt().toLocalDate());
+        requirementDTO.setTime(requirement.getCreatedAt().toLocalTime());
 
         return ResponseEntity.status(HttpStatus.OK).body(requirementDTO);
 
@@ -96,17 +119,6 @@ public class RequirementService {
         return  type.getCode() + "-" + LocalDate.now().getYear() + "-" + String.format("%010d", requirementRepository.count() + 1);
     }
 
-    private GetRequirementDTO convertRequirementToGetDTO(Requirement requirement) {
-        GetRequirementDTO requirementDTO = modelMapper.map(requirement, GetRequirementDTO.class);
-        requirementDTO.setCategoryId(requirement.getCategory().getId());
-        requirementDTO.setCreatorId(requirement.getCreator().getId());
-        requirementDTO.setDate(requirement.getCreatedAt().toLocalDate());
-        requirementDTO.setTime(requirement.getCreatedAt().toLocalTime());
-        if (requirement.getAssignee() != null) {
-            requirementDTO.setAssigneeId(requirement.getAssignee().getId());
-        }
-        return requirementDTO;
-    }
 
     public Requirement getRequirementById(Long id) {
         return requirementRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Requirement with id " + id + " not found"));

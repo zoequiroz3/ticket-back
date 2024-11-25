@@ -21,6 +21,7 @@ import java.util.UUID;
 
 @Service
 public class FileService {
+/*
 
     private static final String directoryPath = System.getenv("DIRECTORY_PATH");
     private final FileRepository fileRepository;
@@ -94,5 +95,6 @@ public class FileService {
         }
         return file.getOriginalFilename().replaceAll("[^a-zA-Z0-9.]", "_");
     }
+*/
 
 }
