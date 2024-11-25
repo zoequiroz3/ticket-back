@@ -1,23 +1,6 @@
 package com.diseno.demo.service;
 
-import com.diseno.demo.dto.request.FileDTO;
-import com.diseno.demo.entity.Requirement;
-import com.diseno.demo.exception.TicketException;
-import com.diseno.demo.repository.FileRepository;
-import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
-import org.modelmapper.ModelMapper;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 @Service
 public class FileService {

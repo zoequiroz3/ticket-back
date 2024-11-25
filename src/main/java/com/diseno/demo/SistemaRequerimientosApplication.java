@@ -11,3 +11,5 @@ public class SistemaRequerimientosApplication {
 	}
 
 }
+
+//todo 1-Notificaciones 2-Files 3-Seguridad 4-Validaciones 5- Manejadores de excepciones globales
